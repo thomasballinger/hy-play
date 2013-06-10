@@ -11,7 +11,6 @@
                ((= spot 0) "  "))))
     (p "\n")))
 
-
 ; this neighborhood and next assume off the board are not alive
 (defn next (neighborhood)
   (def alive (sum (list-comp 
@@ -29,10 +28,11 @@
     (slice board (max (- row 1) 0) (+ row 2)))) 
 
 (defn next-board (board)
-  (defn next-row (r)
-    (defn next-spot (c) (next (get-neighborhood board r c)))
-    (map next-spot (range (len (get board 1)))))
-  (map next-row (range (len board))))
+  (map (lambda (r)
+    (map (lambda (c)
+      (next (get-neighborhood board r c)))
+       (range (len (get board 1)))))
+    (range (len board))))
 
 ;(setv board (lambda () (random.randint 1)))
 ;(setv board (map (lambda [_] (map (lambda [_] (random.randint 0 1)) (range 40))) (range 40)))
@@ -55,4 +55,4 @@
 
 ;(demo tiny-diehard)
 (demo (populate .3))
-    
+
